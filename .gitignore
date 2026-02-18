@@ -1,1 +1,30 @@
-/data
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual env
+venv/
+env/
+.venv/
+
+# Models
+*.pt
+*.pth
+*.pkl
+models/
+
+# MLflow
+mlruns/
+mlflow.db
+
+# DVC cache
+.dvc/cache
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (handled by DVC)
+data/
