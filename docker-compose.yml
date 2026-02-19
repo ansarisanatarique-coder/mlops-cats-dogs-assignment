@@ -1,7 +1,9 @@
+version: "3.8"
 
-version: '3'
 services:
   api:
-    build: .
+    image: sanak786/cats-dogs-api:latest
+    container_name: cats-dogs-api
     ports:
       - "8000:8000"
+    restart: always
