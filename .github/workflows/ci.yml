@@ -1,27 +1,49 @@
-
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout code
       - uses: actions/checkout@v3
 
+      # 2. Set up Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.10
 
+      # 3. Install dependencies
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # 4. Run tests
       - name: Run tests
         run: pytest
 
+      # 5. Build Docker image
       - name: Build Docker Image
         run: docker build -t cats-dogs-api .
+
+      # 6. Deploy using your existing docker-compose.yml
+      - name: Deploy with Docker Compose
+        run: |
+          docker-compose down
+          docker-compose up -d
+
+      # 7. Smoke test / Health check
+      - name: Smoke Test
+        run: |
+          echo "Waiting 5 seconds for service to start..."
+          sleep 5
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/health)
+          if [ $STATUS -ne 200 ]; then
+            echo "Health check failed!"
+            exit 1
+          fi
+          echo "Health check passed!"
