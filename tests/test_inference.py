@@ -1,9 +1,11 @@
+import os
+import sys
 
-from src.model import SimpleCNN
-import torch
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-def test_model_output():
-    model = SimpleCNN()
-    x = torch.randn(1,3,224,224)
-    output = model(x)
-    assert output.shape == (1,2)
+from src.model import train_dummy_model
+
+
+def test_model_training_creates_file():
+    train_dummy_model()
+    assert os.path.exists("model.pkl")
