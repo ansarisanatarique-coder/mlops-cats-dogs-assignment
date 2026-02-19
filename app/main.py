@@ -68,7 +68,8 @@ def load_model():
 
 @app.get("/health")
 def health():
-    return {"status": "running"}
+    return {"status": "ok"}
+
 
 
 @app.post("/predict")
